@@ -1,0 +1,9 @@
+credentials.json
+token.json
+.env.local
+.env
+__pycache__/
+*.pyc
+debug-72abbe.log
+*.log
+.venv/

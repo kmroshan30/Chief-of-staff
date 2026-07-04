@@ -1,0 +1,146 @@
+[
+  {
+    "timestamp": "2026-06-22T17:59:51.264046",
+    "subject": "Q3 Budget Review — Final Call",
+    "messages": [
+      {
+        "from": "Ananya Mehta",
+        "date": "2026-06-17",
+        "body": "Hi Rahul, we need to finalise the Q3 budget by Friday. Can you share revised numbers by EOD tomorrow? We're interested in engineering resourcing costs."
+      },
+      {
+        "from": "Rahul Sharma",
+        "date": "2026-06-17",
+        "body": "Hey Ananya, reviewing headcount projections with Engineering. Numbers to you by tomorrow afternoon."
+      },
+      {
+        "from": "Ananya Mehta",
+        "date": "2026-06-18",
+        "body": "Thanks Rahul. CFO pushed the deadline to Thursday EOD. Please include contractor costs for Q3."
+      }
+    ],
+    "approved_draft": "Got the updated deadline - Thursday EOD. I'll make sure to include contractor costs for Q3. Here's what I'll cover: \n1. Revised headcount projections \n2. Engineering resourcing costs \n3. Contractor costs for Q3. Can we discuss any specific format requirements for the submission? \nThanks, Rose",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-22T18:00:59.454297",
+    "subject": "Q3 Budget Review — Final Call",
+    "messages": [
+      {
+        "from": "Ananya Mehta",
+        "date": "2026-06-17",
+        "body": "Hi Rahul, we need to finalise the Q3 budget by Friday. Can you share revised numbers by EOD tomorrow? We're interested in engineering resourcing costs."
+      },
+      {
+        "from": "Rahul Sharma",
+        "date": "2026-06-17",
+        "body": "Hey Ananya, reviewing headcount projections with Engineering. Numbers to you by tomorrow afternoon."
+      },
+      {
+        "from": "Ananya Mehta",
+        "date": "2026-06-18",
+        "body": "Thanks Rahul. CFO pushed the deadline to Thursday EOD. Please include contractor costs for Q3."
+      }
+    ],
+    "approved_draft": "Got the updated deadline - thanks for the heads up. I'll make sure to include contractor costs for Q3. Here's what I'll cover: \n1. Revised headcount projections \nHI I AM ROSHAN\n\n3. Contractor costs for Q3. Can I confirm if we need to break down contractor costs by department? \nThanks, Rose",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-25T22:05:14.244468",
+    "subject": "KOYYADA, your profile name was changed",
+    "messages": [],
+    "approved_draft": "Got the update on my profile name change. \n- Just wanted to confirm: is this change reflected across all platforms now? \nI'll review my profile to ensure everything looks good. \nLet me know if any further action is needed from my end. \nThanks, Rose",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-25T22:15:22.506639",
+    "subject": "KOYYADA, your profile photo was changed",
+    "messages": [],
+    "approved_draft": "Got the update on my profile photo change. \n- I didn't make any changes to it — can you tell me who made the update? \nI'd like to verify this to ensure my account security. \nLet's get this cleared up ASAP. \nThanks, Rose",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-26T22:28:27.601835",
+    "subject": "meeting of masai",
+    "messages": [],
+    "approved_draft": "Masai meeting sounds good. \ni will attend the meeting at the give time and learn something new\n\nThanks, Mr lucifer",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-26T22:33:52.444657",
+    "subject": "meeting of masai",
+    "messages": [],
+    "approved_draft": "Meeting invite for Masai is set. \n- YES I,  WLL  ATTEND THE MEETING AND LEARN SOMETHING NEW \nTHANKS , ROSHAN",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-26T22:37:21.429591",
+    "subject": "meeting of masai",
+    "messages": [],
+    "approved_draft": "Meeting invite for Masai is set. \n- We've got a few action items to discuss — mainly project timelines and resource allocation. \nCan we confirm the meeting time as 2 PM tomorrow? \nThanks, Rose",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-26T22:41:10.619898",
+    "subject": "meeting of masai",
+    "messages": [],
+    "approved_draft": "Got the meeting invite for Masai. \n- We need to finalize the agenda — what are the top 3 discussion points for this meeting? \nI'll make sure to review and come prepared once I know the key topics.\nLet me know so I can plan accordingly.\nThanks, Rose",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-26T22:46:44.988635",
+    "subject": "meeting of masai",
+    "messages": [],
+    "approved_draft": "Meeting invite for Masai is set. \nI WILL ATTEND THE MEETING.\nTHANKS , ROSHAN",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-26T22:49:16.000767",
+    "subject": "meeting of masai",
+    "messages": [],
+    "approved_draft": "I WILL ATTEND TO THE MEETING .\nTHANKS, ROSHAN",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-26T23:02:22.352241",
+    "subject": "meeting of masai",
+    "messages": [],
+    "approved_draft": "Got it. The Masai meeting invite is a bit vague.\n\nCan we get a clearer agenda for this? Trying to figure out what the main talking points will be — before I block time.\n\nRose",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-29T15:22:25.029065",
+    "subject": "Urgent mail about project",
+    "messages": [],
+    "approved_draft": "Got your urgent mail about the project. \n- We're currently in the final stages of development — so any changes will impact our deadline. \nOne question: what's the priority level of the changes you're proposing? \nThanks, Mr.lucifer",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-29T15:33:03.123609",
+    "subject": "Urgent mail about project",
+    "messages": [],
+    "approved_draft": "Got your email about the project. \n- We're on a tight deadline — let's focus on the critical path. \nTwo key things to discuss: \n1. The dataset integration \n2. Model training timeline. \nCan we schedule a call to finalize the project timeline? \nThanks, Mr,lucifer",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-29T16:01:18.133505",
+    "subject": "Urgent mail about project",
+    "messages": [],
+    "approved_draft": "Got your urgent mail about the project. \n- We've got a tight deadline to meet — let's focus on the critical tasks.\nTwo key things to tackle: \n1. Fixing the API latency issue \n2. Revisiting the QA handoff process.\nCan we schedule a call to discuss the project timeline? \nThanks, Rose",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-06-29T19:13:25.275595",
+    "subject": "Urgent mail about project",
+    "messages": [],
+    "approved_draft": "Got the reminder - final report is due tomorrow by 5 PM. \nI'm on track to submit on time - just finalizing the project report. \nHere's my status: \n1. Report is 90% complete \n2. Just need to add some visuals. \nWill I need to submit any other documents along with the report? \nThanks, Rose",
+    "model": "llama-3.3-70b-versatile"
+  },
+  {
+    "timestamp": "2026-07-04T22:58:31.336562",
+    "subject": "[GitHub] A third-party OAuth application has been added to your account",
+    "messages": [],
+    "approved_draft": "Got the GitHub notification - a third-party OAuth app was added to my account. \n- Streamlit Community Cloud was the app added with user:email scopes. \nI'm trying to figure out if I actually authorized this - did I miss an auth prompt somewhere? \nI'll review my recent activity to see if it was a legit add.\nThanks, Rose",
+    "model": "llama-3.3-70b-versatile"
+  }
+]

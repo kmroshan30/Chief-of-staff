@@ -1,0 +1,202 @@
+[
+  {
+    "threadId": "thread_001",
+    "subject": "URGENT - API Integration Deadline Tomorrow",
+    "_category": "urgent",
+    "messages": [
+      {
+        "id": "msg_001_a",
+        "threadId": "thread_001",
+        "from": "client.sharma@techventures.com",
+        "to": "rose@draftdesk.ai",
+        "subject": "URGENT - API Integration Deadline Tomorrow",
+        "body": "Hi Rose, just a reminder that the API integration deliverable is due tomorrow by 5 PM IST. The client demo is scheduled right after. Please confirm if everything is on track. This is blocking our entire release pipeline.",
+        "date": "2025-06-28T09:00:00Z",
+        "snippet": "API integration deliverable due tomorrow by 5 PM IST..."
+      },
+      {
+        "id": "msg_001_b",
+        "threadId": "thread_001",
+        "from": "rose@draftdesk.ai",
+        "to": "client.sharma@techventures.com",
+        "subject": "Re: URGENT - API Integration Deadline Tomorrow",
+        "body": "Hi, I am on it. Will send a status update by EOD today.",
+        "date": "2025-06-28T10:30:00Z",
+        "snippet": "I am on it. Will send a status update by EOD today..."
+      },
+      {
+        "id": "msg_001_c",
+        "threadId": "thread_001",
+        "from": "client.sharma@techventures.com",
+        "to": "rose@draftdesk.ai",
+        "subject": "Re: URGENT - API Integration Deadline Tomorrow",
+        "body": "Thanks Rose. Please also prepare a brief summary of what was completed and what is pending. The CTO will be on the demo call.",
+        "date": "2025-06-28T11:00:00Z",
+        "snippet": "Please prepare a brief summary of what was completed and pending..."
+      }
+    ]
+  },
+  {
+    "threadId": "thread_002",
+    "subject": "Can we schedule a meeting this week?",
+    "_category": "meeting-request",
+    "messages": [
+      {
+        "id": "msg_002_a",
+        "threadId": "thread_002",
+        "from": "priya.menon@airesearch.in",
+        "to": "rose@draftdesk.ai",
+        "subject": "Can we schedule a meeting this week?",
+        "body": "Hi Rose, I came across your Draft Desk project and would love to discuss a potential collaboration. Are you available for a 30-minute call tomorrow at 10 AM or Thursday at 2 PM? Looking forward to connecting.",
+        "date": "2025-06-27T14:00:00Z",
+        "snippet": "Would love to discuss a potential collaboration. Available tomorrow at 10 AM..."
+      }
+    ]
+  },
+  {
+    "threadId": "thread_003",
+    "subject": "Internship Opportunity - AI Engineer Role",
+    "_category": "needs-reply",
+    "messages": [
+      {
+        "id": "msg_003_a",
+        "threadId": "thread_003",
+        "from": "recruiter.nair@startupai.io",
+        "to": "rose@draftdesk.ai",
+        "subject": "Internship Opportunity - AI Engineer Role",
+        "body": "Hi Rose, we reviewed your LinkedIn profile and were impressed with your AI agent projects. We have an AI Engineer internship opening at our Hyderabad office. The role involves building LLM-powered tools using Python and Streamlit. Would you be interested in a quick 15-minute screening call this week?",
+        "date": "2025-06-26T10:00:00Z",
+        "snippet": "AI Engineer internship opening at our Hyderabad office..."
+      },
+      {
+        "id": "msg_003_b",
+        "threadId": "thread_003",
+        "from": "recruiter.nair@startupai.io",
+        "to": "rose@draftdesk.ai",
+        "subject": "Re: Internship Opportunity - AI Engineer Role",
+        "body": "Hi Rose, just following up on my previous email. We are finalizing candidates this week. Please let us know if you are interested so we can schedule a call.",
+        "date": "2025-06-28T09:00:00Z",
+        "snippet": "Following up, finalizing candidates this week..."
+      }
+    ]
+  },
+  {
+    "threadId": "thread_004",
+    "subject": "Production Server Down - Immediate Help Needed",
+    "_category": "urgent",
+    "messages": [
+      {
+        "id": "msg_004_a",
+        "threadId": "thread_004",
+        "from": "devops.kumar@infracloud.com",
+        "to": "rose@draftdesk.ai",
+        "subject": "Production Server Down - Immediate Help Needed",
+        "body": "CRITICAL: Our main production API has been down for 45 minutes. Users cannot authenticate. We are losing 50k rupees per hour. Our team is stuck on a Python async issue in the backend. Can you jump on a call immediately? This is blocking 200+ active users.",
+        "date": "2025-06-28T08:00:00Z",
+        "snippet": "Production API down for 45 minutes, losing 50k per hour..."
+      }
+    ]
+  },
+  {
+    "threadId": "thread_005",
+    "subject": "Your Weekly AI Newsletter - Top Picks",
+    "_category": "newsletter",
+    "messages": [
+      {
+        "id": "msg_005_a",
+        "threadId": "thread_005",
+        "from": "newsletter@aiweekly.dev",
+        "to": "rose@draftdesk.ai",
+        "subject": "Your Weekly AI Newsletter - Top Picks",
+        "body": "This week in AI: OpenAI releases new reasoning model. Google updates Gemini API with extended context. Anthropic publishes new safety research. Meta open-sources new LLaMA variant. No action needed, just your weekly digest.",
+        "date": "2025-06-27T06:00:00Z",
+        "snippet": "This week in AI: OpenAI releases new reasoning model..."
+      }
+    ]
+  },
+  {
+    "threadId": "thread_006",
+    "subject": "Project Status Update Request",
+    "_category": "needs-reply",
+    "messages": [
+      {
+        "id": "msg_006_a",
+        "threadId": "thread_006",
+        "from": "professor.reddy@chaitanyauniv.ac.in",
+        "to": "rose@draftdesk.ai",
+        "subject": "Project Status Update Request",
+        "body": "Hi Rose, this is a reminder to submit your final year project status update by Friday. Please include completed modules, pending items, and expected completion date. Let me know if you need any guidance.",
+        "date": "2025-06-25T11:00:00Z",
+        "snippet": "Submit final year project status update by Friday..."
+      }
+    ]
+  },
+  {
+    "threadId": "thread_007",
+    "subject": "Team Sync - Can we meet Friday at 3 PM?",
+    "_category": "meeting-request",
+    "messages": [
+      {
+        "id": "msg_007_a",
+        "threadId": "thread_007",
+        "from": "mentor.arjun@mcpcohort.dev",
+        "to": "rose@draftdesk.ai",
+        "subject": "Team Sync - Can we meet Friday at 3 PM?",
+        "body": "Hey Rose, wanted to sync on your MCP cohort project progress. Can we do a 30-minute call this Friday at 3 PM IST? I want to review your Draft Desk agent before the cohort demo. Also want to discuss your next project idea.",
+        "date": "2025-06-27T16:00:00Z",
+        "snippet": "30-minute sync call Friday at 3 PM IST to review Draft Desk..."
+      }
+    ]
+  },
+  {
+    "threadId": "thread_008",
+    "subject": "GitHub Actions CI Workflow Update",
+    "_category": "no-action",
+    "messages": [
+      {
+        "id": "msg_008_a",
+        "threadId": "thread_008",
+        "from": "notifications@github.com",
+        "to": "rose@draftdesk.ai",
+        "subject": "GitHub Actions CI Workflow Update",
+        "body": "Your workflow run on kmroshan30/chief_of_staff completed successfully. All 12 checks passed. Branch: main. Commit: feat: add send_reply function. No further action required.",
+        "date": "2025-06-28T07:30:00Z",
+        "snippet": "Workflow run completed successfully. All 12 checks passed..."
+      }
+    ]
+  },
+  {
+    "threadId": "thread_009",
+    "subject": "Collaboration Proposal - AI Tool Integration",
+    "_category": "needs-reply",
+    "messages": [
+      {
+        "id": "msg_009_a",
+        "threadId": "thread_009",
+        "from": "founder.aditya@builderlab.in",
+        "to": "rose@draftdesk.ai",
+        "subject": "Collaboration Proposal - AI Tool Integration",
+        "body": "Hi Rose, I came across your work on AI agents and automation. We are building an AI productivity platform and looking for collaborators who understand LLM orchestration. Your Draft Desk project aligns perfectly with what we are building. Would love to explore how we can work together. Can you share your availability?",
+        "date": "2025-06-26T15:00:00Z",
+        "snippet": "Looking for collaborators who understand LLM orchestration..."
+      }
+    ]
+  },
+  {
+    "threadId": "thread_010",
+    "subject": "Google Cloud Free Credits Expiring Soon",
+    "_category": "no-action",
+    "messages": [
+      {
+        "id": "msg_010_a",
+        "threadId": "thread_010",
+        "from": "billing@google.com",
+        "to": "rose@draftdesk.ai",
+        "subject": "Google Cloud Free Credits Expiring Soon",
+        "body": "Your Google Cloud free trial credits of $300 are expiring in 30 days. You have used $42.50 so far. After expiry, your account will be paused unless you upgrade to a paid account. No immediate action required if you do not wish to continue.",
+        "date": "2025-06-27T08:00:00Z",
+        "snippet": "Free trial credits expiring in 30 days..."
+      }
+    ]
+  }
+]
