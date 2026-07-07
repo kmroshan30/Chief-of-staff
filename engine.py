@@ -491,24 +491,23 @@ def _send_reply_direct_api(
         }
 
 
-def fetch_threads(max_results: int = 5) -> list[dict[str, str]]:
-    """
-    Return the last *max_results* inbox threads from Gmail.
-
-    On cloud: uses direct Gmail API (no Node.js available).
-    On local: tries MCP server first, falls back to direct Gmail API.
-    """
-    # --- Cloud: direct API only ---
-    if _is_cloud():
-        return _fetch_threads_direct_api(max_results)
-
-    # --- Local: MCP primary, direct API fallback ---
-    _ensure_gmail_auth()
+def fetch_threads(max_results: int = 10) -> list[dict[str, str]]:
     try:
-        return _fetch_threads_mcp(max_results)
+        service = _build_gmail_service()
+        print("[DEBUG] Gmail service built successfully")
+        result = service.users().threads().list(
+            userId="me",
+            maxResults=10,
+            q="in:inbox",
+        ).execute()
+        threads = result.get("threads", [])
+        print(f"[DEBUG] Threads fetched: {len(threads)}")
+        if not threads:
+            print("[DEBUG] Gmail returned 0 threads")
+        return threads
     except Exception as e:
-        print(f"[engine] MCP fetch failed ({e}), falling back to direct Gmail API...")
-        return _fetch_threads_direct_api(max_results)
+        print(f"[DEBUG] Fetch error: {str(e)}")
+        return []
 
 
 def _fetch_threads_direct_api(max_results: int) -> list[dict[str, str]]:
