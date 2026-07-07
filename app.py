@@ -337,7 +337,7 @@ def run_full_pipeline() -> list[str]:
     log: list[str] = []
 
     # (1) Determine the thread source from session state
-    source = st.session_state.get("source", "gmail")
+    source = st.session_state.get("source", "Sample threads")
     log.append(f"[pipeline] Source: {source}")
 
     # (2) Fetch threads
@@ -456,7 +456,7 @@ def _render_pipeline_execution() -> None:
     the Streamlit UI at each step.
     """
     pipeline_log: list[str] = []
-    source = st.session_state.get("source", "gmail")
+    source = st.session_state.get("source", "Sample threads")
     pipeline_log.append(f"[pipeline] Source: {source}")
 
     status = st.status("Running full pipeline...", expanded=True)
@@ -466,7 +466,7 @@ def _render_pipeline_execution() -> None:
     fetched: list[dict] = []
     fetch_ok = False
     try:
-        if source == "gmail":
+        if source == "Gmail via engine.py":
             fetched = fetch_threads_via_engine(max_results=10)
             pipeline_log.append(f"[pipeline] Fetched {len(fetched)} thread(s) via Gmail engine")
         else:
@@ -613,8 +613,8 @@ def render_inbox_phase():
 
     if st.button("📬 Fetch Threads", type="primary", use_container_width=False):
         with st.spinner("Fetching threads..."):
-            source = st.session_state.get("source", "gmail")
-            if source == "gmail":
+            source = st.session_state.get("source", "Sample threads")
+            if source == "Gmail via engine.py":
                 raw_threads = fetch_threads(max_results=10)
                 gmail_used = bool(raw_threads)
             else:
