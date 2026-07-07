@@ -139,13 +139,10 @@ def _ensure_calendar_auth() -> Credentials:
 def _build_calendar_service() -> Any:
     """
     Build and return a Google Calendar v3 service object.
-
-    Uses the same credentials.json and token.json as engine.py.
-    Returns the googleapiclient.discovery.Resource for the Calendar API.
+    Uses credentials_manager which handles both local and cloud environments.
     """
-    creds = _ensure_calendar_auth()
-    service = build("calendar", "v3", credentials=creds)
-    return service
+    from credentials_manager import build_calendar_service
+    return build_calendar_service()
 
 
 # ---------------------------------------------------------------------------

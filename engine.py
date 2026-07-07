@@ -1,12 +1,12 @@
 """
-engine.py — Gmail inbox thread fetcher via MCP server.
+engine.py — Gmail inbox thread fetcher.
 
-Usage:
-    python engine.py
+Strategy:
+  - Local:  MCP server (Node.js) is PRIMARY; direct Gmail API is fallback.
+  - Cloud:  MCP server is unavailable (no Node.js on Streamlit Cloud),
+            so fetch_threads() and send_reply() use the direct Gmail API only.
 
-    The fetch_threads() function returns the last 20 inbox threads
-    as a list of dicts with keys:
-        thread_id, sender, subject, snippet, date
+fetch_threads() returns dicts with keys: thread_id, sender, subject, snippet, date
 """
 
 from __future__ import annotations
@@ -16,12 +16,7 @@ _original_getaddrinfo = socket.getaddrinfo
 
 def ipv4_only_getaddrinfo(host, port, family=0, type=0, proto=0, flags=0):
     return _original_getaddrinfo(
-        host,
-        port,
-        socket.AF_INET,  # Force IPv4
-        type,
-        proto,
-        flags,
+        host, port, socket.AF_INET, type, proto, flags,
     )
 
 socket.getaddrinfo = ipv4_only_getaddrinfo
@@ -36,27 +31,28 @@ from pathlib import Path
 from typing import Any
 
 from triage import triage_inbox  # used in __main__ CLI only
+from credentials_manager import _is_cloud, build_gmail_service
 
 
 # ---------------------------------------------------------------------------
-# Gmail OAuth token management
+# Gmail OAuth token management (local only — cloud uses credentials_manager)
 # ---------------------------------------------------------------------------
 
-MCP_CONFIG_DIR = Path.home() / ".gmail-mcp"
-OAUTH_KEYS_PATH = MCP_CONFIG_DIR / "gcp-oauth.keys.json"
-MCP_TOKEN_PATH = MCP_CONFIG_DIR / "credentials.json"
-
-# In-project auth files (these are the ones the user should manage via git)
-PROJECT_CREDENTIALS = Path("credentials.json")   # OAuth client ID/secret
-PROJECT_TOKEN = Path("token.json")               # cached access/refresh token
+MCP_CONFIG_DIR    = Path.home() / ".gmail-mcp"
+OAUTH_KEYS_PATH   = MCP_CONFIG_DIR / "gcp-oauth.keys.json"
+MCP_TOKEN_PATH    = MCP_CONFIG_DIR / "credentials.json"
+PROJECT_CREDENTIALS = Path("credentials.json")
+PROJECT_TOKEN       = Path("token.json")
 
 
 def _ensure_gmail_auth() -> None:
     """
-    Make sure the Gmail MCP server has valid OAuth keys and a token.
-    If either is missing it will be provisioned from the project-level
-    files or by running the interactive auth flow.
+    Ensure the MCP server has a valid token (local only).
+    On cloud this is a no-op — credentials come from st.secrets.
     """
+    if _is_cloud():
+        return  # credentials_manager handles cloud auth
+
     MCP_CONFIG_DIR.mkdir(parents=True, exist_ok=True)
 
     # --- 1. OAuth client keys (gcp-oauth.keys.json) ---
@@ -279,35 +275,76 @@ class MCPClient:
 # ---------------------------------------------------------------------------
 
 def _build_gmail_service():
-    """Build and return a Gmail API v1 service using the project token."""
+    """
+    Build and return a Gmail API v1 service.
+
+    Strategy:
+      1. Try st.secrets (Streamlit Cloud deployment).
+      2. Fall back to local credentials.json + token.json files.
+    """
+    import json as _json
+    import streamlit as st
     from google.oauth2.credentials import Credentials
     from googleapiclient.discovery import build as _build
-    import json as _json
 
-    token_path = PROJECT_TOKEN
-    creds_path = PROJECT_CREDENTIALS
+    _SCOPES = [
+        "https://www.googleapis.com/auth/gmail.readonly",
+        "https://www.googleapis.com/auth/gmail.send",
+        "https://www.googleapis.com/auth/gmail.modify",
+        "https://www.googleapis.com/auth/gmail.compose",
+        "https://www.googleapis.com/auth/gmail.labels",
+        "https://www.googleapis.com/auth/calendar",
+    ]
 
-    if not token_path.exists():
-        raise FileNotFoundError(f"token.json not found at {token_path}")
+    creds = None
 
-    token_data = _json.loads(token_path.read_text(encoding="utf-8"))
-    creds_data = _json.loads(creds_path.read_text(encoding="utf-8")) if creds_path.exists() else {}
-    installed = creds_data.get("installed", creds_data.get("web", {}))
+    # --- 1. Try Streamlit secrets (cloud) ---
+    try:
+        token_data = _json.loads(st.secrets["GMAIL_TOKEN_JSON"])
+        creds_data = _json.loads(st.secrets["GMAIL_CREDENTIALS_JSON"])
+        installed  = creds_data.get("installed", creds_data.get("web", {}))
+        creds = Credentials(
+            token=token_data.get("access_token"),
+            refresh_token=token_data.get("refresh_token"),
+            token_uri="https://oauth2.googleapis.com/token",
+            client_id=installed["client_id"],
+            client_secret=installed["client_secret"],
+            scopes=_SCOPES,
+        )
+    except Exception:
+        # --- 2. Fallback: local files ---
+        here       = os.path.dirname(os.path.abspath(__file__))
+        creds_path = os.path.join(here, "credentials.json")
+        token_path = os.path.join(here, "token.json")
 
-    scopes = token_data.get("scope", "")
-    if isinstance(scopes, str):
-        scope_list = scopes.split()
-    else:
-        scope_list = list(scopes)
+        if not os.path.exists(token_path):
+            raise FileNotFoundError(
+                f"token.json not found at {token_path}. "
+                "Run: node gmail-mcp-server/dist/index.js auth"
+            )
 
-    creds = Credentials(
-        token=token_data.get("access_token"),
-        refresh_token=token_data.get("refresh_token"),
-        token_uri=installed.get("token_uri", "https://oauth2.googleapis.com/token"),
-        client_id=installed.get("client_id"),
-        client_secret=installed.get("client_secret"),
-        scopes=scope_list,
-    )
+        token_data = _json.loads(open(token_path, encoding="utf-8").read())
+        creds_data = (
+            _json.loads(open(creds_path, encoding="utf-8").read())
+            if os.path.exists(creds_path) else {}
+        )
+        installed = creds_data.get("installed", creds_data.get("web", {}))
+
+        raw_scope = token_data.get("scope", "")
+        scope_list = (
+            raw_scope if isinstance(raw_scope, list)
+            else (raw_scope.split() if raw_scope else _SCOPES)
+        )
+
+        creds = Credentials(
+            token=token_data.get("access_token"),
+            refresh_token=token_data.get("refresh_token"),
+            token_uri=installed.get("token_uri", "https://oauth2.googleapis.com/token"),
+            client_id=installed.get("client_id"),
+            client_secret=installed.get("client_secret"),
+            scopes=scope_list,
+        )
+
     return _build("gmail", "v1", credentials=creds)
 
 
@@ -338,8 +375,12 @@ def send_reply(
         subject if subject.lower().startswith("re:") else f"Re: {subject}"
     )
 
+    # On cloud: skip MCP entirely, go straight to direct Gmail API
+    if _is_cloud():
+        return _send_reply_direct_api(thread_id, to, reply_subject, body)
+
     # ------------------------------------------------------------------ #
-    # PRIMARY: MCP send                                                    #
+    # PRIMARY: MCP send (local)                                            #
     # ------------------------------------------------------------------ #
     mcp_args: dict[str, Any] = {
         "to": [to],
@@ -403,19 +444,25 @@ def send_reply(
     # ------------------------------------------------------------------ #
     # FALLBACK: direct Gmail API                                           #
     # ------------------------------------------------------------------ #
+    return _send_reply_direct_api(thread_id, to, reply_subject, body)
+
+
+def _send_reply_direct_api(
+    thread_id: str, to: str, subject: str, body: str
+) -> dict[str, str]:
+    """Send a reply using the direct Gmail API (used on cloud and as fallback)."""
+    import base64
+    import email.mime.text as _mime
+    import re as _re
+
     try:
-        import base64
-        import email.mime.text as _mime
-        from email.utils import formataddr as _fmt
-
-        service = _build_gmail_service()
-
+        service = build_gmail_service()
         mime_msg = _mime.MIMEText(body, "plain", "utf-8")
         mime_msg["To"] = to
-        mime_msg["Subject"] = reply_subject
+        mime_msg["Subject"] = subject
         if thread_id and _re.match(r"^[0-9a-fA-F]{12,32}$", thread_id):
             mime_msg["In-Reply-To"] = thread_id
-            mime_msg["References"] = thread_id
+            mime_msg["References"]  = thread_id
 
         raw = base64.urlsafe_b64encode(mime_msg.as_bytes()).decode("utf-8")
         send_body: dict[str, Any] = {"raw": raw}
@@ -429,18 +476,17 @@ def send_reply(
         sent_id = sent.get("id", "")
         print(f"[engine] ✓ Email sent via direct Gmail API (message_id={sent_id})")
         return {
-            "message_id": sent_id,
-            "thread_id": thread_id,
-            "status": "sent",
+            "message_id":  sent_id,
+            "thread_id":   thread_id,
+            "status":      "sent",
             "method_used": "direct_api",
         }
-
-    except Exception as fallback_exc:
+    except Exception as e:
         return {
-            "message_id": "",
-            "thread_id": thread_id,
-            "status": "failed",
-            "error": f"MCP: {mcp_error[:120]} | Direct API: {str(fallback_exc)[:120]}",
+            "message_id":  "",
+            "thread_id":   thread_id,
+            "status":      "failed",
+            "error":       str(e),
             "method_used": "none",
         }
 
@@ -449,44 +495,87 @@ def fetch_threads(max_results: int = 5) -> list[dict[str, str]]:
     """
     Return the last *max_results* inbox threads from Gmail.
 
-    Each thread is represented as a dict with keys:
-        thread_id, sender, subject, snippet, date
-
-    The list is ordered newest-first.
+    On cloud: uses direct Gmail API (no Node.js available).
+    On local: tries MCP server first, falls back to direct Gmail API.
     """
-    _ensure_gmail_auth()
+    # --- Cloud: direct API only ---
+    if _is_cloud():
+        return _fetch_threads_direct_api(max_results)
 
+    # --- Local: MCP primary, direct API fallback ---
+    _ensure_gmail_auth()
+    try:
+        return _fetch_threads_mcp(max_results)
+    except Exception as e:
+        print(f"[engine] MCP fetch failed ({e}), falling back to direct Gmail API...")
+        return _fetch_threads_direct_api(max_results)
+
+
+def _fetch_threads_direct_api(max_results: int) -> list[dict[str, str]]:
+    """Fetch threads using the direct Gmail API via credentials_manager."""
+    try:
+        service = build_gmail_service()
+        results = service.users().messages().list(
+            userId="me",
+            labelIds=["INBOX"],
+            maxResults=max_results,
+        ).execute()
+
+        messages = results.get("messages", [])
+        threads: list[dict[str, str]] = []
+
+        for msg in messages:
+            msg_data = service.users().messages().get(
+                userId="me",
+                id=msg["id"],
+                format="metadata",
+                metadataHeaders=["From", "Subject", "Date"],
+            ).execute()
+
+            headers = msg_data.get("payload", {}).get("headers", [])
+            sender  = next((h["value"] for h in headers if h["name"] == "From"),    "Unknown")
+            subject = next((h["value"] for h in headers if h["name"] == "Subject"), "No Subject")
+            date    = next((h["value"] for h in headers if h["name"] == "Date"),    "")
+            snippet = msg_data.get("snippet", "")
+            thread_id = msg_data.get("threadId", msg["id"])
+
+            threads.append({
+                "thread_id": thread_id,
+                "sender":    sender,
+                "subject":   subject,
+                "snippet":   snippet,
+                "date":      date,
+            })
+
+        return threads
+    except Exception as e:
+        print(f"[engine] Direct API fetch failed: {e}")
+        return []
+
+
+def _fetch_threads_mcp(max_results: int) -> list[dict[str, str]]:
+    """Fetch threads via MCP server (local only)."""
     client = MCPClient(MCP_SERVER_CMD)
     try:
         client.start()
-
-        # 1) Search for the most recent inbox messages
         search_result = client.call_tool("search_emails", {
             "query": "in:inbox",
             "maxResults": max_results,
         })
-
         messages = _parse_search_output(search_result)
-
         threads: list[dict[str, str]] = []
         for msg_id, subject, sender, date in messages:
-            # 2) Read the full message to obtain the thread ID
-            detail = client.call_tool("read_email", {"messageId": msg_id})
+            detail    = client.call_tool("read_email", {"messageId": msg_id})
             thread_id = _extract_thread_id(detail)
-
-            # 3) Build a snippet from the body text
-            snippet = _make_snippet(detail)
-
+            snippet   = _make_snippet(detail)
             threads.append({
                 "thread_id": thread_id or msg_id,
-                "sender": sender,
-                "subject": subject,
-                "snippet": snippet,
-                "date": date,
+                "sender":    sender,
+                "subject":   subject,
+                "snippet":   snippet,
+                "date":      date,
             })
-
         return threads
-
     finally:
         client.stop()
 

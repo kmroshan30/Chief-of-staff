@@ -4,6 +4,7 @@ token.json
 .env
 __pycache__/
 *.pyc
+.streamlit/secrets.toml
 debug-72abbe.log
 *.log
 .venv/
