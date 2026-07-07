@@ -342,8 +342,11 @@ def run_full_pipeline() -> list[str]:
 
     # (2) Fetch threads
     try:
-        if source == "gmail":
-            fetched = fetch_threads_via_engine(max_results=10)
+        import engine
+        if st.session_state.source == "Gmail via engine.py":
+            print("[DEBUG] Calling engine.fetch_threads()")
+            fetched = engine.fetch_threads()
+            print(f"[DEBUG] Got {len(fetched)} raw threads")
             log.append(f"[pipeline] Fetched {len(fetched)} thread(s) via Gmail engine")
         else:
             fetched = load_sample_threads()
@@ -1340,9 +1343,9 @@ with st.sidebar:
         label_visibility="collapsed",
         key="source_radio",
     )
-    st.session_state["source"] = "sample" if "Sample" in source else "gmail"
+    st.session_state["source"] = source  # stores "Sample threads" or "Gmail via engine.py"
 
-    if st.session_state["source"] == "gmail":
+    if st.session_state["source"] == "Gmail via engine.py":
         st.caption("Pulls live threads via engine.fetch_threads().")
 
     # Model selector (inline)
