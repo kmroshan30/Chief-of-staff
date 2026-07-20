@@ -1,3 +1,10 @@
+# Customer Churn Prediction
+
+[![Live Demo](https://img.shields.io/badge/🚀%20Live-Demo-brightgreen?style=for-the-badge)](https://chief-of-staff-hm9efo6ccf4od95jyvcses.streamlit.app/)
+
+---
+
+
 # Chief of Staff — Draft Desk
 
 An AI-powered email triage and drafting agent that reads your inbox, understands context, drafts replies in your own voice, and books meetings — with a human-in-the-loop approval step before anything is ever sent.
